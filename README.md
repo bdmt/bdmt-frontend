@@ -13,6 +13,10 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 - [Grunt](http://gruntjs.com/) (`npm install --global grunt-cli`)
 - [SQLite](https://www.sqlite.org/quickstart.html)
 
+### Setup
+
+For the BDMT models, you must supply credentials for the Postgresql database we're using. This is done in server/config/local.env.js, and can be copied from the sample js file in the same directory. In addition, make sure postgres is installed and running, with an appropriate database, along with a working user with appropriate permissions for that database.
+
 ### Developing
 
 1. Run `npm install` to install server dependencies.

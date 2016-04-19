@@ -5,7 +5,9 @@ var controller = require('./bdmt.controller');
 
 var router = express.Router();
 
-router.get("/jobs", controller.allJobs);
+router.get("/jobs", controller.getAllJobs);
+router.get("/jobs/:id", controller.getJob);
+router.get("/jobs/:id/tasks", controller.getJobTasks);
 //router.get("/hosts");
 
 router.get('/*', function(req, res) {

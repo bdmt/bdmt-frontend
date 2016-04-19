@@ -14,7 +14,7 @@ import bdmt from './api/bdmt-dbc/bdmt.models';
 // Populate databases with sample data
 // if (config.seedDB) { require('./config/seed'); }
 if(config.seedDB) {
-	require('./config/bdmt.testdata');
+	// require('./config/bdmt.testdata');
 }
 
 // Setup server

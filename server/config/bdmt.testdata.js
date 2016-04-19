@@ -8,9 +8,6 @@ if(!Date.now) {
 
 bdmt.Job.sync()
 	.then(() => {
-		return bdmt.Job.destroy({ where: {} });
-	})
-	.then(() => {
 		bdmt.Job.bulkCreate([{
 			app_id: "test_12345",
 			start_time: Date.now(),
@@ -21,4 +18,11 @@ bdmt.Job.sync()
 			end_time: Date.now()+(60*1000)
 		}]);
 	});
-
+	
+/*bdmt.Task.sync()
+	.then(() => {
+		
+		bdmt.Task.findOrCreate()
+		
+		
+	});*/
