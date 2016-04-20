@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('job')
+angular.module('bdmtRealApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('jobs', {

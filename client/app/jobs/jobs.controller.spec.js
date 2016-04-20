@@ -3,7 +3,7 @@
 describe('Component: JobsComponent', function () {
 
   // load the controller's module
-  beforeEach(module('job'));
+  beforeEach(module('bdmtRealApp'));
 
   var JobsComponent, scope;
 
