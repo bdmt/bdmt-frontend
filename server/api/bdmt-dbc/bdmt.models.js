@@ -28,11 +28,9 @@ bdmt.Job = bdmt.sequelize.define('Job', {
 // task_id:  The YARN Task ID for this Task. Could have leading zeroes,
 //           so we use a string.
 bdmt.Task = bdmt.sequelize.define('Task', {
-	
-	job_id: Sequelize.INTEGER,
-	type: Sequelize.CHAR,
+	app_id: Sequelize.STRING,
+	is_reduce: Sequelize.BOOLEAN,
 	task_id: Sequelize.STRING
-	
 }, {
 	tableName: 'bdmt_tasks'
 });

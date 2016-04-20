@@ -14,7 +14,8 @@ import bdmt from './api/bdmt-dbc/bdmt.models';
 // Populate databases with sample data
 // if (config.seedDB) { require('./config/seed'); }
 if(config.seedDB) {
-	// require('./config/bdmt.testdata');
+  console.log("Creating our test data!");
+	require('./config/bdmt.testdata');
 }
 
 // Setup server
@@ -33,18 +34,9 @@ function startServer() {
 bdmt.sequelize.sync()
 	.then(startServer)
 	.catch(function(err) {
-		console.log("BDMT database failed to sync: ", err);
+    console.log("BDMT database failed to sync: ", err);
 	});
 
-/*
-
-// Old model, from example files
-sqldb.sequelize.sync()
-  .then(startServer)
-  .catch(function(err) {
-    console.log('Server failed to start due to error: %s', err);
-  });
-*/
 
 // Expose app
 exports = module.exports = app;
