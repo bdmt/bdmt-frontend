@@ -28,11 +28,15 @@ bdmt.Job = bdmt.sequelize.define('Job', {
 // task_id:  The YARN Task ID for this Task. Could have leading zeroes,
 //           so we use a string.
 bdmt.Task = bdmt.sequelize.define('Task', {
-	app_id: Sequelize.STRING,
+	app: Sequelize.INTEGER,
+	host: Sequelize.INTEGER,
 	is_reduce: Sequelize.BOOLEAN,
-	task_id: Sequelize.STRING
+	task_id: Sequelize.STRING,
+	start_time: Sequelize.DATE,
+	end_time: Sequelize.DATE
 }, {
-	tableName: 'bdmt_tasks'
+	tableName: 'bdmt_tasks',
+	timestamps: false
 });
 
 
@@ -41,9 +45,19 @@ bdmt.Task = bdmt.sequelize.define('Task', {
 bdmt.Host = bdmt.sequelize.define('Host', {
 	hostname: Sequelize.STRING
 }, {
-	tableName: 'bdmt_hosts'
+	tableName: 'bdmt_hosts',
+	timestamps: false
 });
 
-// TODO: Make more models :--)
+bdmt.CPUMetric = bdmt.sequelize.define('CPUMetric', {
+	app: Sequelize.INTEGER,
+	task: Sequelize.INTEGER,
+	host: Sequelize.INTEGER,
+	timestamp: Sequelize.TIME,
+	value: Sequelize.REAL
+}, {
+	tableName: 'bdmt_cpu',
+	timestamps: false
+});
 
 module.exports = bdmt;
