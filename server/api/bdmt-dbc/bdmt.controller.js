@@ -35,9 +35,9 @@ function catchEmptyResult(res) {
 
 // Hopefully returns the tasks from a certain job!
 export function getJobTasks(req, res) {
-	return bdmt.Task.find({
+	return bdmt.Task.findAll({
 		where: {
-			job_id: req.params.id
+			app_id: req.params.appid
 		}
 	})
 	.then(catchEmptyResult(res))
@@ -54,7 +54,7 @@ export function getAllJobs(req, res) {
 export function getJob(req, res) {
 	return bdmt.Job.find({
 		where: {
-			id: req.params.id
+			app_id: req.params.appid
 		}
 	})
 	.then(catchEmptyResult(res))
