@@ -1,17 +1,15 @@
 'use strict';
 (function() {
-  console.log('HEEY?');
   class JobsComponent {
     constructor($http) {
       this.$http= $http;
-      console.log('heeeey');
-      this.message = 'Hello2';
+      this.jobs= [];
     }
 
     $onInit() {
-
       this.$http.get('/api/bdmt/jobs').then(response => {
-        this.message = response.data;
+        this.jobs = response.data;
+        console.log(this.jobs);
       });
     }
   }

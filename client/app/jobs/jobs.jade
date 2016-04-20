@@ -1,5 +1,14 @@
 header#banner.hero-unit
   .container
     h1 This is the Jobs View
-ul
-  li {{$ctrl.message}}
+    h1.page-header Features:
+    
+.container
+  ul.list-group
+      li.list-group-item(ng-repeat='job in $ctrl.jobs')
+        p
+          ID: {{job.app_id}} 
+        p
+          Created: {{job.createdAt | date : 'medium'}}
+        p
+          Start Time: {{job.start_time | date : 'medium'}} 
