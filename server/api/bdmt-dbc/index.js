@@ -8,7 +8,7 @@ var router = express.Router();
 router.get("/jobs", controller.getAllJobs);
 router.get("/jobs/:appid", controller.getJob);
 router.get("/jobs/:appid/tasks", controller.getJobTasks);
-//router.get("/hosts");
+router.get("/hosts", controller.getHosts)
 
 router.get('/*', function(req, res) {
 	res.send("Invalid query");
