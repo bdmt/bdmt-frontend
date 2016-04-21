@@ -4,6 +4,7 @@
     constructor($http) {
       this.$http= $http;
       this.jobs= [];
+      this.selectedJobs = [];
     }
 
     $onInit() {

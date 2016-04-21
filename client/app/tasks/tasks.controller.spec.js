@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Component: LoadComponent', function () {
+describe('Component: TasksComponent', function () {
 
   // load the controller's module
   beforeEach(module('bdmtRealApp'));
 
-  var LoadComponent, scope;
+  var TasksComponent, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope) {
     scope = $rootScope.$new();
-    LoadComponent = $componentController('LoadComponent', {
+    TasksComponent = $componentController('TasksComponent', {
       $scope: scope
     });
   }));
