@@ -7,8 +7,13 @@ var router = express.Router();
 
 router.get("/jobs", controller.getAllJobs);
 router.get("/jobs/:appid", controller.getJob);
-router.get("/jobs/:appid/tasks", controller.getJobTasks);
-router.get("/hosts", controller.getHosts)
+
+// Given some app id and some task, find all of the CPU data for that task
+
+// localhost:9000/api/bdmt/metric/cpu?app=1&task=3
+
+router.get("/metric/:metricName", controller.getMetricData);
+router.get("/hosts", controller.getHosts);
 
 router.get('/*', function(req, res) {
 	res.send("Invalid query");
