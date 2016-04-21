@@ -2,6 +2,8 @@
 
 var bdmt = require('./bdmt.models');
 
+var metrics = {"cpu": true};
+
 // These functions from the generator are actually really useful,
 // I'm just gonna copy a few over. :-)
 function respondWithResult(res, statusCode) {
@@ -58,9 +60,8 @@ export function getJob(req, res) {
 		}
 	})
 	.then((j) => {
-		return bdmt.Task.findAll({where: {app_id: j.app_id}})
+		return bdmt.Task.findAll({where: {app: j.id}})
 		.then((result) => {
-			console.log(result);
 			return {
 				job: j,
 				tasks: result
@@ -77,3 +78,31 @@ export function getHosts(req, res) {
 		.then(respondWithResult(res))
 		.catch(handleError(res));
 }
+
+// Given the metric name, pull the appropriate information from the right database.
+export function getMetricData(req, res) {
+	
+	
+	if(!metrics[req.params.metricName])
+		return (() => {
+			res.status(404).end();
+			return null;
+		});
+	
+	if(req.params.metricName == "cpu") {
+		var whereClause = {};
+		for(var key in req.query)
+			whereClause[key] = req.query[key];
+		
+		return bdmt.CPUMetric.findAll({
+			where: whereClause
+		}).then(catchEmptyResult(res))
+		.then(respondWithResult(res))
+		.catch(handleError(res));
+	}
+}
+
+export function createEntry(req, res) {
+	//if(~metrics[])
+}
+
