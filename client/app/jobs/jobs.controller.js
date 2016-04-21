@@ -9,7 +9,6 @@
     $onInit() {
       this.$http.get('/api/bdmt/jobs').then(response => {
         this.jobs = response.data;
-        console.log(this.jobs);
       });
     }
   }

@@ -6,7 +6,8 @@ angular.module('bdmtRealApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'checklist-model'
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider

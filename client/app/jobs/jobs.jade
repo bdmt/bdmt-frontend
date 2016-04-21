@@ -1,14 +1,17 @@
 header#banner.hero-unit
   .container
-    h1 This is the Jobs View
-    h1.page-header Features:
-    
+    h1 Currently Recorded Jobs
+    h2 Jobs recorded: {{$ctrl.jobs.length}}
+  
 .container
-  ul.list-group
+  p.lead.text-center Select jobs you want to see the CPU load of.
+      
+  
+.container
+  ul.list-group.col-xs-4.col-xs-offset-4
       li.list-group-item(ng-repeat='job in $ctrl.jobs')
-        p
-          ID: {{job.app_id}} 
-        p
-          Created: {{job.createdAt | date : 'medium'}}
-        p
-          Start Time: {{job.start_time | date : 'medium'}} 
+        label
+            input(type='checkbox')
+            |  {{job.app_id}}
+  a.btn.btn-default.col-xs-2.col-xs-offset-5(href='#', role='button') Submit
+  
