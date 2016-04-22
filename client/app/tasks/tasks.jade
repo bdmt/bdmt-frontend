@@ -3,14 +3,13 @@
   //- p {{$ctrl.chartData}}
   .container.col-xs-4
     table.table.table-striped
-      h4 Tasks for Job ID: {{$ctrl.job}}
+      h4 Tasks for Job ID: 
       hr
-      tr(ng-repeat="task in $ctrl.data")
+      tr(ng-repeat="task in $ctrl.jobData")
         td
           label
             input(type="checkbox" checklist-model="$ctrl.tasksSelected" checklist-value="task.id" ng-change="$ctrl.arraySorter()")
             |    Task ID: {{task.id}} 
       
-  {{$ctrl.tasksSelected}}
   .container.col-xs-8
     canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.tasksSelected', chart-legend='true', chart-series='$ctrl.series', chart-click='onClick')
