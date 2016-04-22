@@ -1,4 +1,5 @@
 .container
   h1.text-center Hello There.
-  p {{$ctrl.data}}
-  
+  p {{$ctrl.chartData}}
+  p {{$ctrl}}
+  canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.labels', chart-legend='true', chart-series='$ctrl.series', chart-click='onClick')
