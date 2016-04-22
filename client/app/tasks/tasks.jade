@@ -1,5 +1,5 @@
 .container
   h1.text-center {{$ctrl.pageTitle}}
-  p {{$ctrl.chartData}}
-  p {{$ctrl.jobData}}
-  canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.labels', chart-legend='true', chart-series='$ctrl.series', chart-click='onClick')
+  // p {{$ctrl.chartData}}
+  // p  {{$ctrl.jobData}}
+  canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.labels', chart-legend='false', chart-series='$ctrl.series', chart-click='onClick')
