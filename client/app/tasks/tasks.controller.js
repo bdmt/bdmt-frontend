@@ -2,9 +2,10 @@
 (function(){
 
 class TasksComponent {
-  constructor($http, $location, $scope) {
+  constructor($http, $location, $scope, $timeout) {
     this.$http = $http;
     this.$location = $location;
+    this.$timeout = $timeout;
 
     this.job = $location.search().job;
     this.tasks=[];
@@ -18,8 +19,10 @@ class TasksComponent {
     this.labels = ["11:49:25", "", "11:49:35", "", "11:49:45", "", "11:49:55", "", "11:50:05", "", "11:50:05"];
     this.series = ['ip-172-31-15-148.ec2.internal', 'ip-172-31-58-62.ec2.internal'];
     this.chartData = [
-      [ 5, 14, 35, 47, 28,  3, 14, 35, 29, 17,  5],
-      [12, 23, 29, 39, 20, 14,  5,  0,  0,  0,  0]
+      [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+      [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+      // [ 5, 14, 35, 47, 28,  3, 14, 35, 29, 17,  5],
+      // [12, 23, 29, 39, 20, 14,  5,  0,  0,  0,  0]
     ];
 
     this.tasks = [
@@ -28,14 +31,14 @@ class TasksComponent {
         task_id: "0001",
         host: 1,
         start: 0,
-        visible: true,
+        visible: false,
         values: [5, 14, 35, 47, 28, 3]
       }, {
         id: 2,
         task_id: "0002",
         host: 1,
         start: 6,
-        visible: true,
+        visible: false,
         values: [14, 35, 29, 17, 5]
       },
       {
@@ -43,7 +46,7 @@ class TasksComponent {
         task_id: "0001",
         host: 2,
         start: 0,
-        visible: true,
+        visible: false,
         values: [12, 23, 29, 39, 20, 14, 5]
       }
     ]
@@ -96,8 +99,11 @@ class TasksComponent {
     }), 4000);
 
     */
+    
+    //(this.makeNVisible(3, 2000))();
+    this.$timeout(this.makeNVisible(this.tasks.length,225), 50);
 
-    console.log(this);
+    //console.log(this);
 
     // function that returns function
     // if n == 0, function just prints
@@ -112,6 +118,13 @@ class TasksComponent {
   // Grab task info from server
   grabTaskInfo() {
     return this.$http.get('/api/bdmt/jobs/' + this.job);
+  }
+  
+  // Grab every (timestamp, value) key-value pair in the database
+  // given the relevant job and host id.
+  grabAllCPUInfo(jobid) {
+    //return this.$http.get('/api/bdmt/')
+    
   }
 
   initGraph(taskdata) {
@@ -174,62 +187,17 @@ class TasksComponent {
     task.visible = false;
   }
   
-  // Given a task number, toggle its visibility in the graph.
-  /*toggleTask(t) {
-    if(!this.tasks[t-1].visible) this.makeTaskVisible(t);
-    else this.makeTaskInvisible(t);
-  }*/
-
-  /*
-  this.grabCpuInfo = grabCpuInfo;
-  function grabCpuInfo() {
-
-
-  makeTaskVisible(t) {
-
-    // Copy the values from the task's info into the graph
-    var task = this.tasks[t-1];
-
-    console.log("Array we're changing: ", this.chartData[task.host-1]);
-
-    for(var i = 0; i < task.values.length; i++) {
-      //console.log("Changing ", this.chartData[task.host-1][task.start+i], " to ", task.values[i]);
-      this.chartData[task.host-1][task.start+i] = task.values[i];
-    }
-
-    task.visible = true;
-  }
-
-  makeTaskInvisible(t) {
-    var task = this.tasks[t-1];
-
-    for(var i = 0; i < task.values.length; i++) {
-      this.chartData[task.host-1][task.start+i] = 0;
-    }
-
-    task.visible = false;
-  }
-
-
   makeNVisible(n, time) {
     if(n == 0) return (() => {
       return;
     });
 
     return (() => {
-      this.toggleTask(n);
-      setTimeout(this.makeNVisible(n-1, time), time);
+      this.makeTaskVisible(n);
+      this.$timeout(this.makeNVisible(n-1, time), time);
     });
   }
-
-
-  // Grab every (timestamp, value) key-value pair in the database
-  // given the relevant job and host id.
-  /*grabAllCPUInfo(jobid) {
-    return this.$http.get('/api/bdmt/')
-
-  }*/
-
+  
 }
 
 angular.module('bdmtRealApp')

@@ -13,6 +13,8 @@ router.get("/jobs/:appid", controller.getJob);
 // localhost:9000/api/bdmt/metric/cpu?app=1&task=3
 
 router.get("/metric/:metricName", controller.getMetricData);
+router.post("/metric/cpu", controller.postMetricData);
+
 router.get("/hosts", controller.getHosts);
 
 router.get('/*', function(req, res) {
