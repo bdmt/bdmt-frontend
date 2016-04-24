@@ -1,15 +1,21 @@
 .container
-  h1.text-center Hello There.
+  h1.text-center CPU Information
   //- p {{$ctrl.chartData}}
-  .container.col-xs-4
+  div.col-xs-4
     table.table.table-striped
-      h4 Tasks for Job ID: 
-      hr
-      tr(ng-repeat="task in $ctrl.jobData")
+      h4 Tasks for Job {{$ctrl.jobData.job.app_id}}:
+      tr(ng-repeat="task in $ctrl.tasks")
         td
           label
-            input(type="checkbox" checklist-model="$ctrl.tasksSelected" checklist-value="task.id" ng-change="$ctrl.arraySorter()")
-            |    Task ID: {{task.id}} 
+            input(type="checkbox" ng-model="task.visible" ng-click="$ctrl.taskClick(task.id, task.visible)")
+            |    Task ID: {{task.task_id}}
+    hr
+    p Testing!
+    ul#jobList.nav.nav-pills.nav-stacked
+      li(role="presentation" ng-class="{selected: isClicked}" ng-repeat="task in $ctrl.jobData.tasks")
+        a(href="#" ng-class="selectedIndex" ng-click="$ctrl.clicked") Task ID: {{task.task_id}}
+        
+    // 
       
-  .container.col-xs-8
-    canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.tasksSelected', chart-legend='true', chart-series='$ctrl.series', chart-click='onClick')
+  div.col-xs-8
+    canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.labels', chart-legend='false', chart-series='$ctrl.series', chart-click='onClick')

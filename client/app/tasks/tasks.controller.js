@@ -3,14 +3,12 @@
 
 class TasksComponent {
   constructor($http, $location, $scope) {
-    var tc = this;
     this.$http = $http;
     this.$location = $location;
 
     this.job = $location.search().job;
     this.tasks=[];
     this.data;
-    tc.tasksSelected= [];
     this.jobData;
 
     this.pageTitle = "CPU Viewer";
@@ -20,37 +18,32 @@ class TasksComponent {
     this.labels = ["11:49:25", "", "11:49:35", "", "11:49:45", "", "11:49:55", "", "11:50:05", "", "11:50:05"];
     this.series = ['ip-172-31-15-148.ec2.internal', 'ip-172-31-58-62.ec2.internal'];
     this.chartData = [
-      [5, 14, 35, 47, 28, 3,  14, 35, 29, 17, 5],
-      [12, 23, 29, 39, 20, 14, 5,  0,  0,  0,  0]
+      [ 5, 14, 35, 47, 28,  3, 14, 35, 29, 17,  5],
+      [12, 23, 29, 39, 20, 14,  5,  0,  0,  0,  0]
     ];
-
-
-
-    this.arraySorter = arraySorter;
-    function arraySorter(){
-
-      setTimeout(function(){ tc.tasksSelected.sort(); }, 1000);
-
-
-    }
-
 
     this.tasks = [
       {
+        id: 1,
+        task_id: "0001",
         host: 1,
         start: 0,
-        visible: false,
+        visible: true,
         values: [5, 14, 35, 47, 28, 3]
       }, {
+        id: 2,
+        task_id: "0002",
         host: 1,
         start: 6,
-        visible: false,
+        visible: true,
         values: [14, 35, 29, 17, 5]
       },
       {
+        id: 3,
+        task_id: "0001",
         host: 2,
         start: 0,
-        visible: false,
+        visible: true,
         values: [12, 23, 29, 39, 20, 14, 5]
       }
     ]
@@ -68,7 +61,7 @@ class TasksComponent {
     if(!this.job) return;
 
     this.grabTaskInfo().then(response => {
-      this.jobData = response.data.tasks;
+      this.jobData = response.data;
     });
     /*
     .then(grabAllCPUInfo(this.jobData.job.id))
@@ -111,7 +104,11 @@ class TasksComponent {
     // otherwise, function will print, then make another recursive call to itself.
 
   }
-
+  
+  someOtherFunction(thisObject) {
+    console.log("This is another function call!", thisObject);
+  }
+  
   // Grab task info from server
   grabTaskInfo() {
     return this.$http.get('/api/bdmt/jobs/' + this.job);
@@ -142,11 +139,46 @@ class TasksComponent {
 
   }
 
+  taskClick(tid, val) {
+    console.log("Clicked task ", tid);
+    console.log("Task info: ", val);
+    if(val) {
+      this.makeTaskVisible(tid);
+    } else {
+      this.makeTaskInvisible(tid);
+    }
+  }
+  
+  makeTaskVisible(t) {
+
+    // Copy the values from the task's info into the graph
+    var task = this.tasks[t-1];
+
+    console.log("Array we're changing: ", this.chartData[task.host-1]);
+
+    for(var i = 0; i < task.values.length; i++) {
+      //console.log("Changing ", this.chartData[task.host-1][task.start+i], " to ", task.values[i]);
+      this.chartData[task.host-1][task.start+i] = task.values[i];
+    }
+
+    task.visible = true;
+  }
+  
+  makeTaskInvisible(t) {
+    var task = this.tasks[t-1];
+
+    for(var i = 0; i < task.values.length; i++) {
+      this.chartData[task.host-1][task.start+i] = 0;
+    }
+
+    task.visible = false;
+  }
+  
   // Given a task number, toggle its visibility in the graph.
-  toggleTask(t) {
+  /*toggleTask(t) {
     if(!this.tasks[t-1].visible) this.makeTaskVisible(t);
     else this.makeTaskInvisible(t);
-  }
+  }*/
 
   /*
   this.grabCpuInfo = grabCpuInfo;
