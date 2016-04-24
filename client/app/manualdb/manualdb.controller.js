@@ -3,7 +3,7 @@
 
 class ManualdbComponent {
   constructor() {
-    this.message = 'Hello';
+  	
   }
 }
 

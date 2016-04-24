@@ -8,6 +8,13 @@ import errors from './components/errors';
 import path from 'path';
 
 export default function(app) {
+  
+  app.all('/', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+  });
+  
   // Insert routes below
   app.use('/api/things', require('./api/thing'));
   

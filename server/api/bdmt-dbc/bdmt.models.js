@@ -53,7 +53,7 @@ bdmt.CPUMetric = bdmt.sequelize.define('CPUMetric', {
 	app: Sequelize.INTEGER,
 	task: Sequelize.INTEGER,
 	host: Sequelize.INTEGER,
-	timestamp: Sequelize.TIME,
+	timestamp: Sequelize.DATE,
 	value: Sequelize.REAL
 }, {
 	tableName: 'bdmt_cpu',

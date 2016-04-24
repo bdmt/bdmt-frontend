@@ -21,9 +21,14 @@ class TasksComponent {
     this.chartData = [
       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
-      // [ 5, 14, 35, 47, 28,  3, 14, 35, 29, 17,  5],
-      // [12, 23, 29, 39, 20, 14,  5,  0,  0,  0,  0]
     ];
+    
+    this.chartOptions = {
+      scaleOverride: true,
+      scaleSteps: 10,
+      scaleStepWidth: 10,
+      scaleStartValue: 0
+    }
 
     this.tasks = [
       {
@@ -56,15 +61,15 @@ class TasksComponent {
   }
 
   $onInit() {
-    // this.$http.get('/api/bdmt/jobs/'+this.job).then(response => {
-    //   this.data = response.data.tasks;
-    //   console.log(response.data);
-
     // Get the task info from the database
     if(!this.job) return;
 
     this.grabTaskInfo().then(response => {
       this.jobData = response.data;
+    }).then(() => {
+      return this.grabAllCPUInfo(this.jobData);
+    }).then(response => {
+      console.log("Response with data: ", response);
     });
     /*
     .then(grabAllCPUInfo(this.jobData.job.id))
@@ -101,18 +106,16 @@ class TasksComponent {
     */
     
     //(this.makeNVisible(3, 2000))();
-    this.$timeout(this.makeNVisible(this.tasks.length,225), 50);
-
+    this.$timeout(this.makeNVisible(this.tasks.length,1000), 1000);
+    
+    //$timeout(, 1000);
+    
     //console.log(this);
 
     // function that returns function
     // if n == 0, function just prints
     // otherwise, function will print, then make another recursive call to itself.
 
-  }
-  
-  someOtherFunction(thisObject) {
-    console.log("This is another function call!", thisObject);
   }
   
   // Grab task info from server
@@ -122,9 +125,12 @@ class TasksComponent {
   
   // Grab every (timestamp, value) key-value pair in the database
   // given the relevant job and host id.
-  grabAllCPUInfo(jobid) {
+  grabAllCPUInfo(jobinfo) {
     //return this.$http.get('/api/bdmt/')
-    
+    console.log("Grabbing our job information...");
+    return this.$http.get('/api/bdmt/metric/cpu', {
+      params: {"app": jobinfo.job.id}
+    });
   }
 
   initGraph(taskdata) {
@@ -167,8 +173,6 @@ class TasksComponent {
     // Copy the values from the task's info into the graph
     var task = this.tasks[t-1];
 
-    console.log("Array we're changing: ", this.chartData[task.host-1]);
-
     for(var i = 0; i < task.values.length; i++) {
       //console.log("Changing ", this.chartData[task.host-1][task.start+i], " to ", task.values[i]);
       this.chartData[task.host-1][task.start+i] = task.values[i];
@@ -197,6 +201,7 @@ class TasksComponent {
       this.$timeout(this.makeNVisible(n-1, time), time);
     });
   }
+  
   
 }
 
