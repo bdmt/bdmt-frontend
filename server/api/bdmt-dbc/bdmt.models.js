@@ -4,6 +4,7 @@ var dbcfg = require('../../config/local.env').bdmt;
 var bdmt = {
 	sequelize: new Sequelize(dbcfg.db_name, dbcfg.db_user, dbcfg.db_pass, {
 		dialect: "postgres",
+		host: dbcfg.db_host,
 		port: 5432
 	})
 };
