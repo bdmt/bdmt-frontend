@@ -4,7 +4,7 @@ angular.module('bdmtRealApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('main', {
-        url: '/',
+        url: '/oldMain',
         template: '<main></main>'
       });
   });

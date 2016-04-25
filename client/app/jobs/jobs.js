@@ -4,7 +4,7 @@ angular.module('bdmtRealApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('jobs', {
-        url: '/jobs',
+        url: '/',
         template: '<jobs></jobs>'
       });
   });

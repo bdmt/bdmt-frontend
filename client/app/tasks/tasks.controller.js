@@ -13,15 +13,20 @@ class TasksComponent {
     this.jobData;
 
     this.pageTitle = "CPU Viewer";
+    this.VISIBLE_ON_INIT = false;
     this.raw_db_info;
 
     // Chart information
-    this.labels = ["11:49:25", "", "11:49:35", "", "11:49:45", "", "11:49:55", "", "11:50:05", "", "11:50:05"];
-    this.series = ['ip-172-31-15-148.ec2.internal', 'ip-172-31-58-62.ec2.internal'];
-    this.chartData = [
+    this.labels = [];
+    //this.series = ['ip-172-31-15-148.ec2.internal', 'ip-172-31-58-62.ec2.internal'];
+    this.chartData = [];
+    
+    //this.labels = ["11:49:25", "", "11:49:35", "", "11:49:45", "", "11:49:55", "", "11:50:05", "", "11:50:05"];
+    //
+    /*this.chartData = [
       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
-    ];
+    ];*/
     
     this.chartOptions = {
       scaleOverride: true,
@@ -63,59 +68,99 @@ class TasksComponent {
   $onInit() {
     // Get the task info from the database
     if(!this.job) return;
-
+    
     this.grabTaskInfo().then(response => {
       this.jobData = response.data;
     }).then(() => {
       return this.grabAllCPUInfo(this.jobData);
     }).then(response => {
-      console.log("Response with data: ", response);
+      return this.formatCPUData(this.jobData, response.data);
     });
-    /*
-    .then(grabAllCPUInfo(this.jobData.job.id))
 
-    .then(() => {
-
-      // Key: host_id
-      // Value: array of that host's (timestamp, value) pairs
-      cpu_master = {};
-
-      if(!this.jobData.job.id) return;
-      if(!this.jobData.tasks) return;
-
-      this.raw_db_info = grabAllCPUInfo(this.jobData.job.id);
-    });*/
-
-    //(this.makeNVisible(3, 2000))();
-    //this.toggleTask(1);
-    //this.toggleTask(2);
-    //this.toggleTask(3);
-    /*
-    setTimeout((() => {
-      this.toggleTask(1);
-    }), 1000);
-
-    setTimeout((() => {
-      this.toggleTask(2);
-    }), 2500);
-
-    setTimeout((() => {
-      this.toggleTask(3);
-    }), 4000);
-
-    */
+  }
+  
+  
+  // fromatCPUData
+  // After our database calls, this function is fully responsible for
+  // transforming the recieved data into a format the graph can understand
+  formatCPUData(job_response, cpu_response) {
+    console.log("job_response: ", job_response);
+    console.log("cpu_response: ", cpu_response);
     
-    //(this.makeNVisible(3, 2000))();
-    this.$timeout(this.makeNVisible(this.tasks.length,1000), 1000);
+    // Push formatted results into this bad boy
+    var returnTasks = [];
     
-    //$timeout(, 1000);
+    // Transform all timestamps into Date objects
+    for(var cpurec in cpu_response) {
+      cpu_response[cpurec]["date"] = new Date(cpu_response[cpurec].timestamp);
+    }
     
-    //console.log(this);
-
-    // function that returns function
-    // if n == 0, function just prints
-    // otherwise, function will print, then make another recursive call to itself.
-
+    // Go through and sort CPU results by time
+    cpu_response.sort((a,b) => {
+      if(a.date < b.date) return -1;
+      if(a.date > b.date) return 1;
+      else return 0;
+    });
+    
+    // Keep track of which task id is in which index.
+    var task_index_table = {};
+    var hosts = {};
+    
+    // Make an object for each task, where we'll place our
+    for(var task in job_response.tasks) {
+      var t = job_response.tasks[task];
+      var thisTask = {};
+      
+      if(!hosts[t.host]) {
+        hosts[t.host] = {
+          id: t.host,
+          times: [],
+          values: []
+        };
+      }
+      
+      thisTask["host"] = t.host;
+      thisTask["task_id"] = t.task_id;
+      thisTask["type"] = (t.isReduce) ? "reduce" : "map";
+      thisTask["visible"] = this.VISIBLE_ON_INIT;
+      thisTask["values"] = [];
+      thisTask["times"] = [];
+      
+      var task_index = returnTasks.length;
+      task_index_table[t.id] = task_index;
+      
+      returnTasks.push(thisTask);
+    }
+    
+    for(var cpurec in cpu_response) {
+      var c = cpu_response[cpurec];
+      // var task_object = returnTasks[task_index_table[c.task]];
+      var host_object = hosts[c.host];
+      host_object.values.push(c.value);
+      host_object.times.push(c.date);
+    }
+    
+    var maxNumResults = 0;
+    // Prune hosts with no results, keep track of max results
+    for(var h in hosts) {
+      if(hosts[h].values.length == 0)
+        delete hosts[h];
+      else if (hosts[h].values.length > maxNumResults) {
+        maxNumResults = hosts[h].values.length;
+      }
+    }
+    
+    console.log("Host object: ", hosts);
+    // Otherwise, push the values naively to the graph
+    
+    for(var i = 1; i <= maxNumResults; i++) {
+      this.labels.push("Result "+i);
+    }
+    
+    for(var h in hosts) {
+      this.chartData.push(hosts[h].values);
+    }
+    
   }
   
   // Grab task info from server
