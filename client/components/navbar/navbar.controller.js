@@ -8,6 +8,9 @@ class NavbarController {
   }, {
     'title': 'Jobs',
     'state': 'jobs'
+  }, {
+    'title': 'Manual Database Access',
+    'state': 'manualdb'
   }
   ];
 

@@ -15,11 +15,11 @@ div.container
 					label(for="cpuHostId") Host ID:
 					input#cpuHostId.form-control(type="number" ng-model="$ctrl.cpurec.host" placeholder="1")
 				div.form-group
-					label(for="cpuTimestamp") Timestamp:
-					input#cpuTimestamp.form-control(type="text" ng-model="$ctrl.cpurec.timestamp" placeholder="(optional UTC timestamp)")
-				div.form-group
 					label(for="cpuValue") Value:
 					input#cpuValue.form-control(type="number" ng-model="$ctrl.cpurec.value" placeholder="3.22")
+				div.form-group
+					label(for="cpuTimestamp") Timestamp:
+					input#cpuTimestamp.form-control(type="text" ng-model="$ctrl.cpurec.timestamp" placeholder="(optional UTC timestamp)")
 				button.btn.btn-primary(type="button" ng-click="$ctrl.submitCPURecord($ctrl.cpurec)") Submit Record
 			
 		div.col-xs-6
