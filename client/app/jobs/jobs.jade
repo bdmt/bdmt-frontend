@@ -1,12 +1,12 @@
-header#banner.hero-unit
-  .container
+div#jobs.container
+  header#banner.hero-unit
     h1 Currently Recorded Jobs
     h2 Jobs recorded: {{$ctrl.jobs.length}}
   
-.container
-  p.lead.text-center Select a job to see its tasks.
-      
-.container
-  ul.list-group.col-xs-4.col-xs-offset-4
+  div
+    p.lead.text-center Select a job to see its tasks.
+  
+  div
+    ul.list-group.col-xs-4.col-xs-offset-4
       li.list-group-item(ng-repeat='job in $ctrl.jobs')
-        a(ng-href='tasks?job={{job.app_id}}') {{job.app_id}}   
+        a(ng-href='tasks?job={{job.app_id}}') {{job.app_id}}

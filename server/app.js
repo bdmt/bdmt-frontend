@@ -13,14 +13,14 @@ import bdmt from './api/bdmt-dbc/bdmt.models';
 
 // Populate databases with sample data
 // if (config.seedDB) { require('./config/seed'); }
-if(config.seedDB) {
+/*if(config.seedDB) {
 	console.log("Creating our test data!");
 	
 	bdmt.sequelize.sync()
 	.then(() => {
 		require('./config/bdmt.testdata')
 	});
-}
+}*/
 
 // Setup server
 var app = express();

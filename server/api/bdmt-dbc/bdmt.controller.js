@@ -104,8 +104,7 @@ export function getMetricData(req, res) {
 
 export function postMetricData(req, res) {
 	return bdmt.CPUMetric.create(req.body)
-		.then(respondWithResult(res, 201))
-		.catch(handleError(res));
+		.then(respondWithResult(res, 201));
 }
 
 export function createEntry(req, res) {

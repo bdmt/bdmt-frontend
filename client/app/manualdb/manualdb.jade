@@ -1,4 +1,26 @@
 div.container
-	h1 Data submission form
-	h3 This form offers simple submission into our database for easy testing
-	p 
+	h1 Manual data submission form
+	p.lead This form offers simple submission into the database for easy testing
+	
+	div.col-xs-12
+		div.col-xs-6
+			form.cpu
+				div.form-group
+					label(for="cpuJobId") Job ID:
+					input#cpuJobId.form-control(type="number" ng-model="$ctrl.cpurec.app" placeholder="1")
+				div.form-group
+					label(for="cpuTaskId") Task ID:
+					input#cpuTaskId.form-control(type="number" ng-model="$ctrl.cpurec.task" placeholder="1")
+				div.form-group
+					label(for="cpuHostId") Host ID:
+					input#cpuHostId.form-control(type="number" ng-model="$ctrl.cpurec.host" placeholder="1")
+				div.form-group
+					label(for="cpuTimestamp") Timestamp:
+					input#cpuTimestamp.form-control(type="text" ng-model="$ctrl.cpurec.timestamp" placeholder="(optional UTC timestamp)")
+				div.form-group
+					label(for="cpuValue") Value:
+					input#cpuValue.form-control(type="number" ng-model="$ctrl.cpurec.value" placeholder="3.22")
+				button.btn.btn-primary(type="button" ng-click="$ctrl.submitCPURecord($ctrl.cpurec)") Submit Record
+			
+		div.col-xs-6
+			{{$ctrl.cpurec}}
