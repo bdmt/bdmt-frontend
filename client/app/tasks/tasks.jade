@@ -1,7 +1,7 @@
 .container
   h1.text-center CPU Information for job: {{$ctrl.jobData.job.app_id}}
   //- p {{$ctrl.chartData}}
-  div.col-xs-4
+  div.col-xs-3
     table.table.table-striped
       h4.text-center Task List
       tr(ng-repeat="task in $ctrl.tasks")
@@ -16,5 +16,5 @@
     //-     
     // 
       
-  div.col-xs-8
+  div.col-xs-9
     canvas#line.chart.chart-line(chart-data='$ctrl.chartData', chart-labels='$ctrl.labels', chart-options="$ctrl.chartOptions" chart-legend='false', chart-series='$ctrl.series', chart-click='onClick')

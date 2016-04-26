@@ -20,6 +20,9 @@ class TasksComponent {
     this.labels = [];
     //this.series = ['ip-172-31-15-148.ec2.internal', 'ip-172-31-58-62.ec2.internal'];
     this.chartData = [];
+    this.minValue = 0;
+    this.maxValue = 100;
+    this.y_labels = 10;
 
     //this.labels = ["11:49:25", "", "11:49:35", "", "11:49:45", "", "11:49:55", "", "11:50:05", "", "11:50:05"];
     //
@@ -30,9 +33,9 @@ class TasksComponent {
 
     this.chartOptions = {
       scaleOverride: true,
-      scaleSteps: 10,
-      scaleStepWidth: 10,
-      scaleStartValue: 0
+      scaleSteps: this.y_labels,
+      scaleStepWidth: (this.maxValue-this.minValue)/this.y_labels,
+      scaleStartValue: this.minValue
     }
 
     // this.tasks = [
@@ -91,10 +94,28 @@ class TasksComponent {
     var returnTasks = [];
 
     // Transform all timestamps into Date objects
+    // Also, keep track of the minimum and maximum result
+    this.maxValue = -99999;
+    this.minValue = 99999;
+    
     for(var cpurec in cpu_response) {
       cpu_response[cpurec]["date"] = new Date(cpu_response[cpurec].timestamp);
+      if(cpu_response[cpurec]["value"] < this.minValue) {
+        this.minValue = cpu_response[cpurec]["value"];
+        continue;
+      }
+      if(cpu_response[cpurec]["value"] > this.maxValue) {
+        this.maxValue = cpu_response[cpurec]["value"];
+      }
     }
-
+    
+    this.chartOptions = {
+      scaleOverride: true,
+      scaleSteps: this.y_labels,
+      scaleStepWidth: (this.maxValue-this.minValue)/this.y_labels,
+      scaleStartValue: this.minValue
+    }
+    
     // Go through and sort CPU results by time
     cpu_response.sort((a,b) => {
       if(a.date < b.date) return -1;
@@ -152,9 +173,9 @@ class TasksComponent {
 
     console.log("Host object: ", hosts);
     // Otherwise, push the values naively to the graph
-
+    var lblstr = (maxNumResults >= 30) ? "" : "Result ";
     for(var i = 1; i <= maxNumResults; i++) {
-      this.labels.push("Result "+i);
+      this.labels.push(lblstr+i);
     }
 
     for(var h in hosts) {
