@@ -18,7 +18,8 @@ bdmt.Job = bdmt.sequelize.define('Job', {
 	start_time: Sequelize.DATE,
 	end_time: Sequelize.DATE
 }, {
-	tableName: 'bdmt_jobs'
+	tableName: 'bdmt_jobs',
+	timestamps: false
 });
 
 
