@@ -1,20 +1,19 @@
 .container
-  h1.text-center CPU Information
+  h1.text-center CPU Information for job: {{$ctrl.jobData.job.app_id}}
   //- p {{$ctrl.chartData}}
   div.col-xs-4
     table.table.table-striped
-      h4 Tasks for Job {{$ctrl.jobData.job.app_id}}:
+      h4.text-center Task List
       tr(ng-repeat="task in $ctrl.tasks")
         td
-          label
-            input(type="checkbox" ng-model="task.visible" ng-click="")
-            |    Task ID: {{task.task_id}}
-    hr
-    p Testing!
-    ul#jobList.nav.nav-pills.nav-stacked
-      li(role="presentation" ng-class="{selected: isClicked}" ng-repeat="task in $ctrl.jobData.tasks")
-        a(href="#" ng-class="selectedIndex" ng-click="$ctrl.clicked") Task ID: {{task.task_id}}
-        
+          label.text-center
+            |    {{$ctrl.jobData.job.app_id}}_{{task.task_id}}
+    //- hr
+    //- p Testing!
+    //- ul#jobList.nav.nav-pills.nav-stacked
+    //-   li(role="presentation" ng-class="{selected: isClicked}" ng-repeat="task in $ctrl.jobData.tasks")
+    //-     a(href="#" ng-class="selectedIndex" ng-click="$ctrl.clicked") Task ID: {{task.task_id}}
+    //-     
     // 
       
   div.col-xs-8
